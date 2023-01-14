@@ -20,4 +20,58 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover; 
+
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 0px 0px 20px #aaaaaa;
+  color: whitesmoke;
+
 }
+
+main {
+  height: 100vh;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.time {
+  text-align: center;
+}
+
+/* crypto data styles */
+.crypto-header {
+  padding-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.crypto-header h2 {
+  margin: 0;
+}
+
+.crypto-header img {
+  width: 30px;
+}
+
+
+.crypto-list {
+  margin: 0 0 0 0.5em;
+  padding: 0;
+  list-style: none;
+  font-size: 1.125rem;
+}
+
+.crypto-list span {
+  margin-left: 0.25em;
+}
+
+
+
+
