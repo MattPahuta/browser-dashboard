@@ -41,6 +41,9 @@ main {
 }
 
 .time {
+  cursor: default;
+  font-size: 800%;
+  letter-spacing: -5px;
   text-align: center;
 }
 
@@ -59,7 +62,6 @@ main {
 .crypto-header img {
   width: 30px;
 }
-
 
 .crypto-list {
   margin: 0 0 0 0.5em;

@@ -12,9 +12,8 @@ async function getRandomBg() {
   author.textContent = `By: ${authorData}`
 }
 
-getRandomBg()
 
-// get bitcoin data
+// get crypto data
 fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
   .then(res => {
     if (!res.ok) {
@@ -37,3 +36,14 @@ fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
     `
   })
   .catch(err => console.error(err));
+
+// get/display current time
+function updateTime() {
+  const date = new Date();
+  const currentTime = date.toLocaleTimeString('en-us', {timeStyle: 'short'});
+  document.querySelector('#time').textContent = currentTime;
+}
+
+// add content to DOM:
+getRandomBg(); // make this once a day?
+setInterval(updateTime, 1000);
