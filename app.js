@@ -69,12 +69,22 @@ function error(err) {
 function displayWeather(weatherData) {
   const weather = document.querySelector('#weather');
   const icon = weatherData.weather[0]['icon'];
-  weather.innerHTML = `<img src=http://openweathermap.org/img/wn/${icon}@2x.png>`;
+  weather.innerHTML = `
+    <img class="weather-img" src=http://openweathermap.org/img/wn/${icon}@2x.png>
+    <p class="weather-temp">${Math.round(weatherData.main.temp)}º</p>
+    <p class="weather-city">${weatherData.name}</p>
+    `;
+
+  // display temp rounded to nearest degree - data.main.temp
+  // display city - data.name
+  console.log(weatherData.main.temp)
+  console.log(weatherData.name)
 }
 
 async function getWeather(position) {
   const res = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
   const data = await res.json()
+  console.log(data)
   displayWeather(data)
 }
 
