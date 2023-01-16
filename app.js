@@ -1,6 +1,7 @@
 // Scrimba Momentum Dashboard Clone Project
 const baseUrl = 'https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature';
 const author = document.querySelector('#author');
+// const weather = document.querySelector('#weather');
 
 async function getRandomBg() {
   const res = await fetch(`${baseUrl}`);
@@ -51,20 +52,50 @@ const options = {
   maximumAge: 0
 };
 
-function success(pos) {
-  const crd = pos.coords;
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-}
+// function success(pos) {
+//   const crd = pos.coords;
+//   console.log('Your current position is:');
+//   console.log(`Latitude : ${crd.latitude}`);
+//   console.log(`Longitude: ${crd.longitude}`);
+//   console.log(`More or less ${crd.accuracy} meters.`);
+// }
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
 }
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+// navigator.geolocation.getCurrentPosition(success, error, options);
 
+function displayWeather(weatherData) {
+  const weather = document.querySelector('#weather');
+  const icon = weatherData.weather[0]['icon'];
+  weather.innerHTML = `<img src=http://openweathermap.org/img/wn/${icon}@2x.png>`;
+}
+
+async function getWeather(position) {
+  const res = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+  const data = await res.json()
+  displayWeather(data)
+}
+
+navigator.geolocation.getCurrentPosition(getWeather, error, options);
+
+// navigator.geolocation.getCurrentPosition(position => {
+//   fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+//     .then(res => {
+//       if (!res.ok) {
+//         throw Error('Weather data not available');
+//       }
+//       return res.json();
+//     })
+//     .then(data => {
+//       console.log(data.weather[0]['icon'])
+//       const icon = data.weather[0]['icon'];
+//       weather.innerHTML = `<img src=http://openweathermap.org/img/wn/${icon}@2x.png>`;
+
+//     })
+//     .catch(err => console.error(err));
+//   });
 
 // add content to DOM:
 getRandomBg(); // make this once a day?
