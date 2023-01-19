@@ -1,29 +1,26 @@
 // Scrimba Momentum Dashboard Clone Project
 const baseUrl = 'https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature';
 const author = document.querySelector('#author');
-// const weather = document.querySelector('#weather');
 
 async function getRandomBg() {
-  const res = await fetch(`${baseUrl}`);
-  const data = await res.json();
-
-  const bgUrl = data.urls.regular; // update to full later
-  const authorData = data.user.name;
-  document.body.style.backgroundImage = `url(${bgUrl})`
-  author.textContent = `By: ${authorData}`
+  try {
+    const res = await fetch(`${baseUrl}`);
+    const data = await res.json();
+  
+    const bgUrl = data.urls.regular; // update to full later
+    const authorData = data.user.name;
+    document.body.style.backgroundImage = `url(${bgUrl})`
+    author.textContent = `By: ${authorData}`
+  } catch(err) {
+    alert('Something went wrong', err);
+  }
 }
 
-
-// get crypto data
-fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
-  .then(res => {
-    if (!res.ok) {
-      throw Error('Something went wrong');
-    }
-    return res.json();
-  })
-  .then(data => {
-    // add build crypto list html function to replace this
+async function getCryptoData() {
+  try {
+    const res = await fetch(`https://api.coingecko.com/api/v3/coins/dogecoin`)
+    const data = await res.json();
+    // Display crypo data - split to its own function
     const cryptoSection = document.querySelector('#crypto');
     cryptoSection.innerHTML = `
       <div>
@@ -35,8 +32,10 @@ fetch("https://api.coingecko.com/api/v3/coins/dogecoin")
         </ul>
       </div>
     `
-  })
-  .catch(err => console.error(err));
+  } catch(err) {
+    alert('Something went wrong', err)
+  }
+}
 
 // get/display current time
 function updateTime() {
@@ -52,19 +51,9 @@ const options = {
   maximumAge: 0
 };
 
-// function success(pos) {
-//   const crd = pos.coords;
-//   console.log('Your current position is:');
-//   console.log(`Latitude : ${crd.latitude}`);
-//   console.log(`Longitude: ${crd.longitude}`);
-//   console.log(`More or less ${crd.accuracy} meters.`);
-// }
-
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
 }
-
-// navigator.geolocation.getCurrentPosition(success, error, options);
 
 function displayWeather(weatherData) {
   const weather = document.querySelector('#weather');
@@ -74,39 +63,25 @@ function displayWeather(weatherData) {
     <p class="weather-temp">${Math.round(weatherData.main.temp)}º</p>
     <p class="weather-city">${weatherData.name}</p>
     `;
-
-  // display temp rounded to nearest degree - data.main.temp
-  // display city - data.name
   console.log(weatherData.main.temp)
   console.log(weatherData.name)
 }
 
 async function getWeather(position) {
-  const res = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
-  const data = await res.json()
-  console.log(data)
-  displayWeather(data)
+  try {
+    const res = await fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
+    const data = await res.json()
+    console.log(data)
+    displayWeather(data)
+  } catch(err) {
+    alert('Something went wrong', err)
+  }
+
 }
 
 navigator.geolocation.getCurrentPosition(getWeather, error, options);
 
-// navigator.geolocation.getCurrentPosition(position => {
-//   fetch(`https://apis.scrimba.com/openweathermap/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=imperial`)
-//     .then(res => {
-//       if (!res.ok) {
-//         throw Error('Weather data not available');
-//       }
-//       return res.json();
-//     })
-//     .then(data => {
-//       console.log(data.weather[0]['icon'])
-//       const icon = data.weather[0]['icon'];
-//       weather.innerHTML = `<img src=http://openweathermap.org/img/wn/${icon}@2x.png>`;
-
-//     })
-//     .catch(err => console.error(err));
-//   });
-
 // add content to DOM:
 getRandomBg(); // make this once a day?
+getCryptoData();
 setInterval(updateTime, 1000);
